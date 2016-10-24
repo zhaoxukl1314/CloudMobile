@@ -9,8 +9,10 @@ import android.support.annotation.RequiresApi;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 
+import com.example.zhaoxukl1314.devcloudmobile.Animation.AnimationFactory;
 import com.example.zhaoxukl1314.devcloudmobile.R;
 
 /**
@@ -21,6 +23,7 @@ public class BaseLayout {
 
     private Activity mActivity;
     private RootView mRootView;
+    private Button button;
 
     public BaseLayout(Activity activity) {
         mActivity = activity;
@@ -34,7 +37,6 @@ public class BaseLayout {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
         mRootView.setLayoutParams(rootLayoutParams);
-        mRootView.setBackgroundColor(Color.RED);
     }
 
     private class RootView extends RelativeLayout {
@@ -93,6 +95,28 @@ public class BaseLayout {
                     ViewGroup.LayoutParams.WRAP_CONTENT);
             footContentLayoutParams.addRule(CENTER_VERTICAL,RelativeLayout.TRUE);
             footView.setLayoutParams(footContentLayoutParams);
+
+            ViewGroup headView = (ViewGroup) View.inflate(context,R.layout.header,null);
+            mHeaderContainer.addView(headView);
+            RelativeLayout.LayoutParams headContentLayoutParams = new RelativeLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            headContentLayoutParams.addRule(CENTER_VERTICAL,RelativeLayout.TRUE);
+            headView.setLayoutParams(headContentLayoutParams);
+
+            button = (Button) headView.findViewById(R.id.test);
+//            final View slideMenu = View.inflate(context,R.layout.slide_menu,null);
+//            addView(slideMenu);
+//            RelativeLayout.LayoutParams menuParams = (LayoutParams) slideMenu.getLayoutParams();
+//            slideMenu.setX(getResources().getDimension(R.dimen.slide_menu_left));
+
+            button.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AnimationFactory.slideAnimation(mRootView);
+//                    AnimationFactory.slideInAnimation(slideMenu);
+                }
+            });
         }
     }
 
