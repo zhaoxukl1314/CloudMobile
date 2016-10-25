@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 
 import com.example.zhaoxukl1314.devcloudmobile.Animation.AnimationFactory;
 import com.example.zhaoxukl1314.devcloudmobile.R;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 /**
  * Created by zhaoxukl1314 on 16/10/23.
@@ -104,19 +105,7 @@ public class BaseLayout {
             headContentLayoutParams.addRule(CENTER_VERTICAL,RelativeLayout.TRUE);
             headView.setLayoutParams(headContentLayoutParams);
 
-            button = (Button) headView.findViewById(R.id.test);
-//            final View slideMenu = View.inflate(context,R.layout.slide_menu,null);
-//            addView(slideMenu);
-//            RelativeLayout.LayoutParams menuParams = (LayoutParams) slideMenu.getLayoutParams();
-//            slideMenu.setX(getResources().getDimension(R.dimen.slide_menu_left));
-
-            button.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    AnimationFactory.slideAnimation(mRootView);
-//                    AnimationFactory.slideInAnimation(slideMenu);
-                }
-            });
+//            button = (Button) headView.findViewById(R.id.test);
         }
     }
 
@@ -126,5 +115,29 @@ public class BaseLayout {
                 new WindowManager.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT));
+
+        setupSlideMenu();
+    }
+
+    private void setupSlideMenu() {
+        // configure the SlidingMenu
+        SlidingMenu menu = new SlidingMenu(mActivity);
+        menu.setMode(SlidingMenu.LEFT);
+        // 设置触摸屏幕的模式
+        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        menu.setShadowWidthRes(R.dimen.shadow_width);
+        menu.setShadowDrawable(R.drawable.shadow);
+
+        // 设置滑动菜单视图的宽度
+        menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+        // 设置渐入渐出效果的值
+        menu.setFadeDegree(0.35f);
+        /**
+         * SLIDING_WINDOW will include the Title/ActionBar in the content
+         * section of the SlidingMenu, while SLIDING_CONTENT does not.
+         */
+        menu.attachToActivity(mActivity, SlidingMenu.SLIDING_CONTENT);
+        //为侧滑菜单设置布局
+        menu.setMenu(R.layout.slide_menu);
     }
 }

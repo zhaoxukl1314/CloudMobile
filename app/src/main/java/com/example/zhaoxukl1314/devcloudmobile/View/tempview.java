@@ -460,4 +460,600 @@ public class tempview {
 
     //public interface LayoutPattern {
 //}
+
+
+
+//    public SettingAdapter generateItemAdapter() {
+//        SettingAdapter adapter = new SettingAdapter(mContext, mDialogItemFactory);
+//        mSettingChangeExecutor =
+//                new SettingChangeExecutor(mActivity, mStateMachine, mMenuDialog);
+//        ArrayList<TimeShiftViewerMenuItem> visibleItems =
+//                new ArrayList<TimeShiftViewerMenuItem>();
+//        for (TimeShiftViewerMenuItem key : COMMON_ITEMS) {
+//            if (isVisible(key)) visibleItems.add(key);
+//        }
+//        for (TimeShiftViewerMenuItem key : visibleItems) {
+//            SettingItemBuilder<TimeShiftViewerMenuItem> builder = SettingItemBuilder.build(key)
+//                    .iconId(key.getIconId())
+//                    .textId(key.getTitleId())
+//                    .executor(mSettingChangeExecutor.getExecutor(key))
+//                    .selectable(isSelectable(key))
+//                    .dialogItemType(SettingDialogItemFactory.VALUE_BUTTON);
+//
+//            adapter.add(builder.commit());
+//        }
+//        adapter.setItemHeight(SettingDialogBasicParams
+//                .SECOND_LAYER_DIALOG_SINGLE_ITEM_PARAMS
+//                .getItemHeight(mActivity));
+//        return adapter;
+//    }
+//}
+
 }
+
+
+//public class SettingItemBuilder<T> {
+//    public static final String TAG = "SettingItemBuilder";
+//
+//    private final T mData;
+//
+//    private int mIconId = ResourceUtil.INVALID_RESOURCE_ID;
+//    private int mTextId = ResourceUtil.INVALID_RESOURCE_ID;
+//    private int mSubTextId = ResourceUtil.INVALID_RESOURCE_ID;
+//    private int mLongTextId = ResourceUtil.INVALID_RESOURCE_ID;
+//    private String mAdditionalTextForAccessibility = "";
+//    private String mText = "";
+//    private int mDialogItemType = ResourceUtil.INVALID_RESOURCE_ID;
+//    private SettingExecutorInterface<T> mExecutor = null;
+//    private List<SettingItem> mItems = null;
+//
+//    private boolean mIsSelectable = true;
+//    private boolean mSelected = false;
+//    private boolean mIsSoundEnabled = true;
+//
+//    private SettingItemBuilder(T data) {
+//        mData = data;
+//    }
+//
+//    public static <T> SettingItemBuilder<T> build(T data) {
+//        return new SettingItemBuilder<T>(data);
+//    }
+//
+//    public SettingItem commit() {
+//        final SettingItem item;
+//
+//        if (mTextId == ResourceUtil.INVALID_RESOURCE_ID) {
+//            item = new TypedSettingItem<T>(
+//                    mData,
+//                    mIconId,
+//                    mText,
+//                    mSubTextId,
+//                    mLongTextId,
+//                    mAdditionalTextForAccessibility,
+//                    mDialogItemType,
+//                    mExecutor,
+//                    mIsSoundEnabled);
+//
+//        } else {
+//            item = new TypedSettingItem<T>(
+//                    mData,
+//                    mIconId,
+//                    mTextId,
+//                    mSubTextId,
+//                    mLongTextId,
+//                    mAdditionalTextForAccessibility,
+//                    mDialogItemType,
+//                    mExecutor,
+//                    mIsSoundEnabled);
+//        }
+//
+//        if (mItems != null) {
+//            for (SettingItem child : mItems) {
+//                item.getChildren().add(child);
+//            }
+//        }
+//
+//        item.setSelectable(mIsSelectable);
+//        item.setSelected(mSelected);
+//
+//        return item;
+//    }
+//
+//    public SettingItemBuilder<T> iconId(int id) {
+//        mIconId = id;
+//        return this;
+//    }
+//
+//    public SettingItemBuilder<T> textId(int id) {
+//        mTextId = id;
+//        return this;
+//    }
+//
+//    public SettingItemBuilder<T> subTextId(int id) {
+//        mSubTextId = id;
+//        return this;
+//    }
+//
+//    public SettingItemBuilder<T> longTextId(int id) {
+//        mLongTextId = id;
+//        return this;
+//    }
+//
+//    public SettingItemBuilder<T> text(String text) {
+//        mText = text;
+//        return this;
+//    }
+//
+//    public SettingItemBuilder<T> additionalTextForAccessibility(String text) {
+//        mAdditionalTextForAccessibility = text;
+//        return this;
+//    }
+//
+//    public SettingItemBuilder<T> dialogItemType(int type) {
+//        mDialogItemType = type;
+//        return this;
+//    }
+//
+//    public SettingItemBuilder<T> executor(SettingExecutorInterface<T> executor) {
+//        mExecutor = executor;
+//        return this;
+//    }
+//
+//    public SettingItemBuilder<T> item(SettingItem item) {
+//        if (mItems == null) {
+//            mItems = new ArrayList<SettingItem>();
+//        }
+//        mItems.add(item);
+//        return this;
+//    }
+//
+//    public SettingItemBuilder<T> selected(boolean value) {
+//        mSelected = value;
+//        return this;
+//    }
+//
+//    public SettingItemBuilder<T> selectable(boolean value) {
+//        mIsSelectable = value;
+//        return this;
+//    }
+//
+//    public SettingItemBuilder<T> enableSound(boolean value) {
+//        mIsSoundEnabled = value;
+//        return this;
+//    }
+
+//public enum TimeShiftViewerMenuItem implements SettingKey {
+//    SAVE_SEPERATELY(
+//            R.string.cam_strings_timeshift_save_selection_txt),
+//    SHARE(
+//            R.string.cam_strings_timeshift_share_txt),
+//    SELECT_PHOTOS(
+//            R.string.cam_strings_timeshift_select_images_txt),
+//    CANCLE_SELECTION(
+//            R.string.cam_strings_timeshift_cancel_selection_txt),
+//    ;
+//
+//    /** Other applications may refer to the title id. */
+//    private int mTitleTextId;
+//
+//    private TimeShiftViewerMenuItem(int titleTextId) {
+//        mTitleTextId = titleTextId;
+//    }
+//
+//    /**
+//     * Get Title Id for the value.
+//     *
+//     * @return Title Id.
+//     */
+//    public int getTitleId() {
+//        return mTitleTextId;
+//    }
+//
+//    /**
+//     * Get Icon Id for the value.
+//     */
+//    @Override
+//    public int getIconId() {
+//        // This function is never used.
+//        return 0;
+//    }
+//
+//    /**
+//     * Get Text Id for the value.
+//     */
+//    @Override
+//    public int getTextId() {
+//        // This function is never used.
+//        return 0;
+//    }
+//}
+
+//public class SettingChangeExecutor {
+//
+//    private static final String TAG = SettingChangeExecutor.class.getSimpleName();
+//    private StateMachine mStateMachine;
+//    private SettingDialogStack mSettingDialogStack;
+//    private TimeShiftViewerShare mTimeShiftViewerShare;
+//    private ArrayList<Uri> mUriList;
+//    private List<TimeShiftImage> mOriginalUriList;
+//
+//    public SettingChangeExecutor(
+//            Activity activity, StateMachine stateMachine, SettingDialogStack settingDialogStack) {
+//        mStateMachine = stateMachine;
+//        mSettingDialogStack = settingDialogStack;
+//        mTimeShiftViewerShare = new TimeShiftViewerShare(activity);
+//    }
+//
+//    private class SaveSeperatelySettingExecutor implements
+//            SettingExecutorInterface<TimeShiftViewerMenuItem> {
+//        @Override
+//        public void onExecute(TypedSettingItem<TimeShiftViewerMenuItem> item) {
+//            mSettingDialogStack.closeDialogs(false);
+//            mStateMachine.sendEvent(Event.EVENT_ON_SAVE_REQUEST);
+//        }
+//    }
+//
+//    private class ShareSettingExecutor implements
+//            SettingExecutorInterface<TimeShiftViewerMenuItem> {
+//        @Override
+//        public void onExecute(TypedSettingItem<TimeShiftViewerMenuItem> item) {
+//            mSettingDialogStack.closeDialogs(false);
+//            getUriList();
+//            if (mUriList.size() != 0) {
+//                mTimeShiftViewerShare.select(mUriList);
+//            }
+//        }
+//    }
+//
+//    private class SelectPhotoSettingExecutor implements
+//            SettingExecutorInterface<TimeShiftViewerMenuItem> {
+//        @Override
+//        public void onExecute(TypedSettingItem<TimeShiftViewerMenuItem> item) {
+//            mSettingDialogStack.closeDialogs(false);
+//            if(!mTimeShiftViewerShare.isShareDialogAreadyExist()) {
+//                mStateMachine.sendEvent(Event.EVENT_ON_MULTIPLE_SELECT);
+//            }
+//        }
+//    }
+//
+//    private class CancelSelectionSettingExecutor implements
+//            SettingExecutorInterface<TimeShiftViewerMenuItem> {
+//        @Override
+//        public void onExecute(TypedSettingItem<TimeShiftViewerMenuItem> item) {
+//            mSettingDialogStack.closeDialogs(false);
+//            mStateMachine.sendEvent(Event.EVENT_ON_MULTIPLE_CANCEL);
+//        }
+//    }
+//
+//    public SettingExecutorInterface<TimeShiftViewerMenuItem> getExecutor(
+//            final TimeShiftViewerMenuItem key) {
+//        switch (key) {
+//            case SAVE_SEPERATELY:
+//                return new SaveSeperatelySettingExecutor();
+//
+//            case SHARE:
+//                return new ShareSettingExecutor();
+//
+//            case SELECT_PHOTOS:
+//                return new SelectPhotoSettingExecutor();
+//
+//            case CANCLE_SELECTION:
+//                return new CancelSelectionSettingExecutor();
+//
+//            default:
+//                return new SettingExecutorInterface<TimeShiftViewerMenuItem>() {
+//                    @Override
+//                    public void onExecute(TypedSettingItem<TimeShiftViewerMenuItem> item) {
+//                        // NOP
+//                    }
+//                };
+//        }
+//    }
+//
+//    public void getUriList() {
+//        mUriList = new ArrayList<Uri>();
+//        mOriginalUriList = mStateMachine.getSelectedImageList();
+//        for(int index = 0; index < mOriginalUriList.size(); index++) {
+//            Uri mUri = Uri.fromFile(
+//                    new File(((TimeShiftImage) mOriginalUriList.get(index)).path));
+//            mUriList.add(mUri);
+//        }
+//        mOriginalUriList.clear();
+//    }
+//}
+
+//public interface SettingExecutorInterface<T> {
+//    void onExecute(TypedSettingItem<T> item);
+//}
+
+
+//public class TypedSettingItem<T> implements SettingItem {
+//    public static final String TAG = "TypedSettingItem";
+//
+//    private final T mData;
+//
+//    //Only one of mTxtId or mTxtStr is set in constructor.
+//    private final int mTextId;
+//    private final String mText;
+//
+//    private final int mSubTextId;
+//    private final int mLongTextId;
+//
+//
+//    private final int mIconId;
+//    private final int mDialogItemType;
+//    private final String mAdditionalTextForAccessibility;
+//
+//    private final SettingExecutorInterface<T> mExecutor;
+//    private final List<SettingItem> mChildren;
+//
+//
+//    private boolean mIsSelected;
+//    private boolean mIsSelectable;
+//    private final boolean mIsSoundEnabled;
+//
+//    private OnItemSelectedListener mOnSettingItemSelectedListener;
+//
+//
+//    public TypedSettingItem(
+//            T data,
+//            int iconId,
+//            int labelId,
+//            int subTextId,
+//            int longTextId,
+//            String additionalTextForAccessibility,
+//            int dialogItemType,
+//            SettingExecutorInterface<T> executor,
+//            boolean isSoundEnable) {
+//        mData = data;
+//        mTextId = labelId;
+//        mText = "";
+//        mIconId = iconId;
+//        mDialogItemType = dialogItemType;
+//        mExecutor = executor;
+//        mIsSoundEnabled = isSoundEnable;
+//
+//        mChildren = new ArrayList<SettingItem>();
+//
+//        mSubTextId = subTextId;
+//        mLongTextId = longTextId;
+//        mAdditionalTextForAccessibility = additionalTextForAccessibility;
+//        mIsSelected = false;
+//        mIsSelectable = false;
+//
+//        mOnSettingItemSelectedListener = null;
+//    }
+//
+//    public TypedSettingItem(
+//            T data,
+//            int iconId,
+//            String text,
+//            int subTextId,
+//            int longTextId,
+//            String additionalTextForAccessibility,
+//            int dialogItemType,
+//            SettingExecutorInterface<T> executor,
+//            boolean isSoundEnable) {
+//        mData = data;
+//        mTextId = ResourceUtil.INVALID_RESOURCE_ID;
+//        mText = text;
+//        mSubTextId = subTextId;
+//        mLongTextId = longTextId;
+//        mIconId = iconId;
+//        mDialogItemType = dialogItemType;
+//        mAdditionalTextForAccessibility = additionalTextForAccessibility;
+//        mExecutor = executor;
+//        mIsSoundEnabled = isSoundEnable;
+//
+//        mChildren = new ArrayList<SettingItem>();
+//
+//        mIsSelected = false;
+//        mIsSelectable = false;
+//
+//        mOnSettingItemSelectedListener = null;
+//    }
+//
+//    @Override
+//    public String getText(Resources resources) {
+//        if (mTextId == ResourceUtil.INVALID_RESOURCE_ID) {
+//            return mText;
+//        } else {
+//            return resources.getString(mTextId);
+//        }
+//    }
+//
+//    /**
+//     * Return null if the sub text is not set.
+//     */
+//    @Override
+//    public String getSubText(Resources resources) {
+//        if (mSubTextId == ResourceUtil.INVALID_RESOURCE_ID) {
+//            return null;
+//        } else {
+//            return resources.getString(mSubTextId);
+//        }
+//    }
+//
+//    /**
+//     * Return null if the long text is not set.
+//     */
+//    @Override
+//    public String getLongText(Resources resources) {
+//        if (mLongTextId == ResourceUtil.INVALID_RESOURCE_ID) {
+//            return null;
+//        } else {
+//            return resources.getString(mLongTextId);
+//        }
+//    }
+//
+//    @Override
+//    public String getContentDescription(Resources resources) {
+//
+//        StringBuilder description = new StringBuilder();
+//
+//        if (mTextId != ResourceUtil.INVALID_RESOURCE_ID) {
+//            description.append(resources.getString(mTextId));
+//        } else {
+//            description.append(mText);
+//        }
+//
+//        if ((mAdditionalTextForAccessibility != null) &&
+//                (!mAdditionalTextForAccessibility.isEmpty())) {
+//            description.append(' ');
+//            description.append(mAdditionalTextForAccessibility);
+//        }
+//
+//        if (!isSelectable()) {
+//            description.append(' ');
+//            description.append(resources.getString(
+//                    R.string.cam_strings_accessibility_not_configurable_txt));
+//        }
+//
+//        return description.toString();
+//    }
+//
+//    @Override
+//    public int getIconId() {
+//        return mIconId;
+//    }
+//
+//    @Override
+//    public boolean isSelected() {
+//        return mIsSelected;
+//    }
+//
+//    @Override
+//    public boolean isSelectable() {
+//        return mIsSelectable;
+//    }
+//
+//    @Override
+//    public void setSelected(boolean value) {
+//        mIsSelected = value;
+//    }
+//
+//    @Override
+//    public void setSelectable(boolean value) {
+//        mIsSelectable = value;
+//    }
+//
+//    @Override
+//    public int getDialogItemType() {
+//        return mDialogItemType;
+//    }
+//
+//    @Override
+//    public List<SettingItem> getChildren() {
+//        return mChildren;
+//    }
+//
+//    public T getData() {
+//        return mData;
+//    }
+//
+//    /**
+//     * Select the item
+//     *
+//     * SettingExecutorInterface.onExecute() is called.
+//     */
+//    @Override
+//    public void select() {
+//        mIsSelected = true;
+//
+//        if (mOnSettingItemSelectedListener != null) {
+//            mOnSettingItemSelectedListener.onItemSelected(this);
+//        }
+//
+//        if (mExecutor == null) {
+//            return;
+//        }
+//
+//        mExecutor.onExecute(this);
+//    }
+//
+//    @Override
+//    public void setOnSelectedListener(OnItemSelectedListener listener) {
+//        mOnSettingItemSelectedListener = listener;
+//    }
+//
+//    @Override
+//    public boolean compareData(SettingItem item) {
+//        if (item instanceof TypedSettingItem) {
+//            TypedSettingItem<?> other = (TypedSettingItem<?>)item;
+//            return (mData == other.mData);
+//        }
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean compareData(Object data) {
+//        return (mData == data);
+//    }
+//
+//    public String getValueText() {
+//        return mAdditionalTextForAccessibility;
+//    }
+//
+//    @Override
+//    public boolean isSoundEnabled() {
+//        return mIsSoundEnabled;
+//    }
+//}
+
+
+//public interface SettingItem {
+//
+//
+//    /**
+//     *  Reader of resource id.
+//     */
+//    int getIconId();
+//    String getText(Resources resources);
+//    String getSubText(Resources resources);
+//    String getLongText(Resources resources);
+//    String getContentDescription(Resources resources);
+//
+//    /**
+//     * Select this setting item and run the specified SettingExecutor.
+//     */
+//    void select();
+//
+//    /**
+//     * Return true and this item is highlighted in setting dialog if this item is selected.
+//     */
+//    boolean isSelected();
+//
+//    /**
+//     * Return true and this item is visible in setting dialog if this item is selected.
+//     */
+//    boolean isSelectable();
+//
+//    void setSelected(boolean value);
+//
+//    void setSelectable(boolean value);
+//
+//    int getDialogItemType();
+//
+//    List<SettingItem> getChildren();
+//
+//    void setOnSelectedListener(OnItemSelectedListener listener);
+//
+//    boolean compareData(SettingItem item);
+//
+//    boolean compareData(Object data);
+//
+//    boolean isSoundEnabled();
+//}
+
+
+//public interface SettingKey extends SettingItemData {
+//
+//}
+
+//public interface SettingItemData {
+//
+//    public int getIconId();
+//
+//    public int getTextId();
+//}
+

@@ -1,102 +1,125 @@
 package com.example.zhaoxukl1314.devcloudmobile.Activity;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.View;
-import android.view.Window;
+import android.widget.ListView;
 
 import com.example.zhaoxukl1314.devcloudmobile.R;
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
-import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 
-public class MainActivity extends SlidingFragmentActivity
-{
-
-	private ViewPager mViewPager;
-	private FragmentPagerAdapter mAdapter;
-	private List<Fragment> mFragments = new ArrayList<Fragment>();
-
+/**
+ * 谷歌自带刷新demo
+ * 
+ */
+public class MainActivity extends Activity implements OnRefreshListener,
+		RefreshLayout.OnLoadListener {
+	private RefreshLayout swipeLayout;
+	private ListView listView;
+	private MyAdapter adapter;
+	private ArrayList<HashMap<String, String>> list;
+	private View header;
 	@Override
-	public void onCreate(Bundle savedInstanceState)
-	{
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
-		// 初始化SlideMenu
-		initRightMenu();
-		// 初始化ViewPager
-		initViewPager();
-
+		initView();
+		setData();
+		setListener();
+		/*设置自动刷新 swipeLayout.setRefreshing(true);
+		在 setRefreshing(true)并没有触发onRefresh的,须要手动调用一次
+        */
+//		swipeLayout.post(new Thread(new Runnable() {
+//			@Override
+//			public void run() {
+//				swipeLayout.setRefreshing(true);
+//			}
+//		}));
+//		onRefresh();
 	}
 
-	private void initViewPager()
-	{
-		mViewPager = (ViewPager) findViewById(R.id.id_viewpager);
-		MainTab01 tab01 = new MainTab01();
-		MainTab02 tab02 = new MainTab02();
-		MainTab03 tab03 = new MainTab03();
-		mFragments.add(tab01);
-		mFragments.add(tab02);
-		mFragments.add(tab03);
-		/**
-		 * 初始化Adapter
-		 */
-		mAdapter = new FragmentPagerAdapter(getSupportFragmentManager())
-		{
+	/**
+	 * 初始化布局
+	 */
+	@SuppressLint({ "InlinedApi", "InflateParams" })
+	private void initView() {
+		header = getLayoutInflater().inflate(R.layout.header, null);
+		swipeLayout = (RefreshLayout) findViewById(R.id.swipe_container);
+		swipeLayout.setColorSchemeResources(R.color.color_bule2,R.color.color_bule,R.color.color_bule2,R.color.color_bule3);
+	}
+
+	/**
+	 * 添加数据
+	 */
+	private void setData() {
+		list = new ArrayList<HashMap<String, String>>();
+		for (int i = 0; i < 10; i++) {
+		    HashMap<String, String> map = new HashMap<String, String>();  
+            map.put("itemImage", i+"默认");  
+            map.put("itemText", i+"默认");  
+            list.add(map);
+		}
+		listView = (ListView) findViewById(R.id.list);
+		listView.addHeaderView(header);
+		adapter = new MyAdapter(this, list);
+		listView.setAdapter(adapter);
+	}
+
+	/**
+	 * 设置监听
+	 */
+	private void setListener() {
+		swipeLayout.setOnRefreshListener(this);
+		swipeLayout.setOnLoadListener(this);
+	}
+
+	/**
+	 * 上拉刷新
+	 */
+	@Override
+	public void onRefresh() {
+		swipeLayout.postDelayed(new Runnable() {
+
 			@Override
-			public int getCount()
-			{
-				return mFragments.size();
+			public void run() {
+				// 更新数据  更新完后调用该方法结束刷新
+				list.clear();
+				for (int i = 0; i < 8; i++) {
+				    HashMap<String, String> map = new HashMap<String, String>();  
+		            map.put("itemImage", i+"刷新");  
+		            map.put("itemText", i+"刷新");  
+		            list.add(map);
+				}
+				adapter.notifyDataSetChanged();
+				swipeLayout.setRefreshing(false);
 			}
+		}, 2000);
 
+	}
+
+	/**
+	 * 加载更多
+	 */
+	@Override
+	public void onLoad() {
+		swipeLayout.postDelayed(new Runnable() {
 			@Override
-			public Fragment getItem(int arg0)
-			{
-				return mFragments.get(arg0);
+			public void run() {
+				// 更新数据  更新完后调用该方法结束刷新
+				swipeLayout.setLoading(false);
+				for (int i = 1; i < 10; i++) {
+				    HashMap<String, String> map = new HashMap<String, String>();  
+		            map.put("itemImage", i+"更多");  
+		            map.put("itemText", i+"更多");  
+		            list.add(map);
+				}
+				adapter.notifyDataSetChanged();
 			}
-		};
-		mViewPager.setAdapter(mAdapter);
+		}, 2000);
 	}
 
-	private void initRightMenu()
-	{
-		
-		Fragment leftMenuFragment = new MenuLeftFragment();
-		setBehindContentView(R.layout.left_menu_frame);
-		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.id_left_menu_frame, leftMenuFragment).commit();
-		SlidingMenu menu = getSlidingMenu();
-		menu.setMode(SlidingMenu.LEFT_RIGHT);
-		// 设置触摸屏幕的模式
-		menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
-		menu.setShadowWidthRes(R.dimen.shadow_width);
-		menu.setShadowDrawable(R.drawable.shadow);
-		// 设置滑动菜单视图的宽度
-		menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
-//		menu.setBehindWidth()
-		// 设置渐入渐出效果的值
-		menu.setFadeDegree(0.35f);
-		// menu.setBehindScrollScale(1.0f);
-		menu.setSecondaryShadowDrawable(R.drawable.shadow);
-		//设置右边（二级）侧滑菜单
-		menu.setSecondaryMenu(R.layout.right_menu_frame);
-		Fragment rightMenuFragment = new MenuRightFragment();
-		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.id_right_menu_frame, rightMenuFragment).commit();
-	}
-
-	public void showLeftMenu(View view)
-	{
-		getSlidingMenu().showMenu();
-	}
-
-	public void showRightMenu(View view)
-	{
-		getSlidingMenu().showSecondaryMenu();
-	}
 }
